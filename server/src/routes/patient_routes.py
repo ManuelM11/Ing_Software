@@ -24,11 +24,20 @@ class PatientRoutes:
         def route(id):
             return f"Patient id {id} was deleted"
         self.p_r.append(simple_page)
+    def uploadPatientTest(self):
+        simple_page = Blueprint("uploadPatientTest",__name__)
+        #Here we code mysql statement
+        @simple_page.route("/uploadPatientTest/<id>")
+        def route(id):
+            return "Daily Test Uploaded!"
+        self.p_r.append(simple_page)
+
     def getBlueprints(self):
         #We call Blueprints
         self.fetchPatients()
         self.fetchPatientById()
         self.deletePatientById()
+        self.uploadPatientTest()
         if (ServerConfig.DEBUG == True):
             #DEBUGGING
             print(f"Total routes created: {len(self.p_r)} {self.p_r}")
