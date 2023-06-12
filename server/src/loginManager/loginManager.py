@@ -1,15 +1,28 @@
-from flask_login import LoginManager
+from flask_wtf import FlaskForm
 
-def login_required(role="PACIENTE"):
-    def wrapper(fn):
-        @wraps(fn)
-        def decorated_view(*args, **kwargs):
+class RegisterForm(FlaskForm):
+    username = StringField(validators=[
+                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
-            if not current_user.is_authenticated():
-               return current_app.login_manager.unauthorized()
-            urole = current_app.login_manager.reload_user().get_urole()
-            if ( (urole != role) and (role != "PACIENTE")):
-                return current_app.login_manager.unauthorized()      
-            return fn(*args, **kwargs)
-        return decorated_view
-    return wrapper
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(
+            username=username.data).first()
+        if existing_user_username:
+            raise ValidationError(
+                'That username already exists. Please choose a different one.')
+
+
+class LoginForm(FlaskForm):
+    username = StringField(validators=[
+                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Login')
+    
