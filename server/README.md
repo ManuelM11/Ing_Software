@@ -17,7 +17,7 @@ Para correr el servidor de flask, primero debemos crear el entorno virtual.
    Lo que significa que estamos trabajando en el entorno virtual.
    
     
-3. Instalar las dependencias necesarias, en nuestro caso flask y flask_mysql: pip install flask flask_mysql
+3. Instalar las dependencias necesarias, en nuestro caso flask y flask_mysql: pip install flask flask_sqlalchemy pymysql
 
    (env) PS C:\Users\manue\OneDrive\Escritorio\Ing_Software\server> pip install flask flask_mysql
 

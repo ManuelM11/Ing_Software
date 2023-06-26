@@ -1,14 +1,21 @@
 from flask import Blueprint
 from config import ServerConfig
+from src.models.db import Db
+import json
+#Initializing db
+DB = Db()
 #We set blueprients routes to modularize api rest
 class PatientRoutes:
     #We set patient routes
     p_r = []
     def fetchPatients(self):
+       
         simple_page = Blueprint("fetchPatients",__name__)
         @simple_page.route("/fetchPatients")
         def index():
-            return "ajdkaskjdsa"
+            statement = "SELECT * FROM FUNCIONARIO"
+            results = DB.query(statement)
+            return json.dumps(results,ensure_ascii=False)
         self.p_r.append(simple_page)
         return simple_page
     def fetchPatientById(self):
@@ -43,7 +50,3 @@ class PatientRoutes:
             print(f"Total routes created: {len(self.p_r)} {self.p_r}")
         #Return array with blueprints to use in app.py file
         return self.p_r
-
-
-        
-
