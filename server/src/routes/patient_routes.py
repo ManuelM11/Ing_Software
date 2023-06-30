@@ -9,20 +9,21 @@ class PatientRoutes:
     #We set patient routes
     p_r = []
     def fetchPatients(self):
-       
         simple_page = Blueprint("fetchPatients",__name__)
         @simple_page.route("/fetchPatients")
         def index():
-            statement = "SELECT * FROM FUNCIONARIO"
+            statement = "SELECT * FROM PACIENTE"
             results = DB.query(statement)
             return json.dumps(results,ensure_ascii=False)
         self.p_r.append(simple_page)
         return simple_page
     def fetchPatientById(self):
-        simple_page = Blueprint("fetchPatientById",__name__)
-        @simple_page.route("/fetchPatient/<id>")
-        def route(id):
-            return f"{id}"
+        simple_page = Blueprint("fetchPatientByRut",__name__)
+        @simple_page.route("/fetchPatientByRut/<rut>")
+        def route(rut):
+            statement = f"SELECT * FROM PACIENTE WHERE RUT = {rut}"
+            results = DB.query(statement)
+            return json.dumps(results,ensure_ascii=False)
         self.p_r.append(simple_page)
         return simple_page
     def deletePatientById(self):
