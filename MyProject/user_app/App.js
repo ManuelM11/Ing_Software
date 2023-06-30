@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
+import React, { useState } from 'react';
 
 const { width, height } = Dimensions.get('window');
 
 export default function App() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.containerNoty} />
@@ -11,11 +14,15 @@ export default function App() {
         <View style={minSalLogo.logoLeft} />
         <View style={minSalLogo.logoRight} />
         <Text style={generalStyles.titles}>MPC</Text>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <View style={styles.button}>
+            <View style={styles.buttonLine1} />
+            <View style={styles.buttonLine2} />
+            <View style={styles.buttonLine3} />
+          </View>
+        </TouchableOpacity>
       </View>
-      
     </View>
-    
-    
   );
 }
 
@@ -32,12 +39,44 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:'space-between',
-    paddingHorizontal: width * 0.04, // 4% of the screen width
-    paddingTop: height * 0.02, // 2% of the screen height
+    paddingHorizontal: width * 0.05, // 5% of the screen width
+    paddingTop: height * 0.03, // 3% of the screen height
     backgroundColor: '#f2f2f2',
     height: height * 0.1,
     borderBottomWidth: .5,
     borderBottomColor: '#ccc',
+  },
+  button: {
+    paddingHorizontal: width * 0.06,
+    paddingVertical: height * 0.03,
+    alignSelf: 'center',
+  },
+  buttonLine1: {
+    position: 'absolute',
+    top: 0,
+    left: -width *.06,
+    paddingVertical: height * 0.005,
+    paddingHorizontal: width * 0.08,
+    alignSelf: 'center',
+    backgroundColor: 'gray',
+  },
+  buttonLine2: {
+    position: 'absolute',
+    top: 15,
+    left: -width *.06,
+    paddingVertical: height * 0.005,
+    paddingHorizontal: width * 0.08,
+    alignSelf: 'center',
+    backgroundColor: 'gray',
+  },
+  buttonLine3: {
+    position: 'absolute',
+    top: 30,
+    left: -width *.06,
+    paddingVertical: height * 0.005,
+    paddingHorizontal: width * 0.08,
+    alignSelf: 'center',
+    backgroundColor: 'gray',
   },
 
 });
