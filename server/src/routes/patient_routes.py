@@ -1,6 +1,6 @@
 from flask import Blueprint
 from config import ServerConfig
-from src.models.db import Db
+from models.db import Db
 import json
 #Initializing db
 DB = Db()
