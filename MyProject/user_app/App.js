@@ -14,13 +14,32 @@ export default function App() {
         <View style={minSalLogo.logoLeft} />
         <View style={minSalLogo.logoRight} />
         <Text style={generalStyles.titles}>MPC</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
+
+        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
           <View style={styles.button}>
             <View style={styles.buttonLine1} />
             <View style={styles.buttonLine2} />
             <View style={styles.buttonLine3} />
           </View>
         </TouchableOpacity>
+
+        <Modal visible={modalVisible} animationType='slide' transparent={true}>
+          <View style={{flexDirection:"row",justifyContent:"center"}}>
+            
+            <Image source={require('./assets/mSal.png')}/>
+
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
+              <View style={styles.button}>
+                <View style={styles.buttonLine1} />
+                <View style={styles.buttonLine2} />
+                <View style={styles.buttonLine3} />
+                <View cambioPequeno></View>
+              </View>
+            </TouchableOpacity>
+
+          </View>
+        </Modal>
+        
       </View>
     </View>
   );
