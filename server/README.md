@@ -41,4 +41,7 @@ En caso de tener el error de que la ejecución de scripts está deshabilitada en
 
 SETUP REACT-NATIVE
 
-1. npm install -g expo-cli
+1. Tener node y npm instalados. version 18.16.1 y 9.5.1
+2. Parados en la carpeta react-app ejecutamos npx-create-expo-app "Nombre del proyecto" en nuestro caso, user_app
+3. Ejecutamos expo-init
+4. Ejecutamos npm start
