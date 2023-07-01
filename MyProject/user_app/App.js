@@ -30,8 +30,16 @@ export default function App() {
 
         <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
 
-        <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
-          <View style={{flexDirection:"row",justifyContent:"center"}}>
+      </View>
+
+      <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
+          <View style={{
+            backgroundColor:'white',
+            paddingBottom: height,
+            marginBottom: 0,
+            flexDirection:"row",
+            justifyContent:"center",          
+          }}>
             <Button title="Close" onPress={handleModalClose} />
             <DropDownPicker
               items={[
@@ -46,8 +54,6 @@ export default function App() {
 
           </View>
         </Modal>
-        
-      </View>
     </View>
   );
 }
