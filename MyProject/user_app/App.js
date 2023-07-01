@@ -1,11 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Modal, Button} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from 'react';
 
 const { width, height } = Dimensions.get('window');
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+
+
+  const handleButtonPress = () => {
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+
 
   return (
     <View style={styles.container}>
@@ -15,27 +28,21 @@ export default function App() {
         <View style={minSalLogo.logoRight} />
         <Text style={generalStyles.titles}>MPC</Text>
 
-        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
-          <View style={styles.button}>
-            <View style={styles.buttonLine1} />
-            <View style={styles.buttonLine2} />
-            <View style={styles.buttonLine3} />
-          </View>
-        </TouchableOpacity>
+        <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
 
-        <Modal visible={modalVisible} animationType='slide' transparent={true}>
+        <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
           <View style={{flexDirection:"row",justifyContent:"center"}}>
-            
-            <Image source={require('./assets/mSal.png')}/>
-
-            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
-              <View style={styles.button}>
-                <View style={styles.buttonLine1} />
-                <View style={styles.buttonLine2} />
-                <View style={styles.buttonLine3} />
-                <View cambioPequeno></View>
-              </View>
-            </TouchableOpacity>
+            <Button title="Close" onPress={handleModalClose} />
+            <DropDownPicker
+              items={[
+                { label: 'Option 1', value: 'option1' },
+                { label: 'Option 2', value: 'option2' },
+                { label: 'Option 3', value: 'option3' },
+              ]}
+              defaultValue={selectedValue}
+              containerStyle={{ height: 40 }}
+              onChangeItem={(item) => setSelectedValue(item.value)}
+            />
 
           </View>
         </Modal>
@@ -69,33 +76,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.06,
     paddingVertical: height * 0.03,
     alignSelf: 'center',
-  },
-  buttonLine1: {
-    position: 'absolute',
-    top: 0,
-    left: -width *.06,
-    paddingVertical: height * 0.005,
-    paddingHorizontal: width * 0.08,
-    alignSelf: 'center',
-    backgroundColor: 'gray',
-  },
-  buttonLine2: {
-    position: 'absolute',
-    top: 15,
-    left: -width *.06,
-    paddingVertical: height * 0.005,
-    paddingHorizontal: width * 0.08,
-    alignSelf: 'center',
-    backgroundColor: 'gray',
-  },
-  buttonLine3: {
-    position: 'absolute',
-    top: 30,
-    left: -width *.06,
-    paddingVertical: height * 0.005,
-    paddingHorizontal: width * 0.08,
-    alignSelf: 'center',
-    backgroundColor: 'gray',
   },
 
 });
