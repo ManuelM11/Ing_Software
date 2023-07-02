@@ -1,24 +1,67 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Modal, Button} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import React, { useState } from 'react';
+import DropDownPicker from 'react-native-dropdown-picker'; // DropDownPicker (Al final no lo usé :v), pero lo dejo ahi
+import React, { useEffect, useState } from 'react';
+import { useFonts } from 'expo-font'; // Carga de fonts
+import {AssistanceButton, AutoexamenButton} from './AppButtons';
+import axios from 'axios';
+
+
 
 const { width, height } = Dimensions.get('window');
 
+
+  
+
+// Corresponde a el return de la parte visual de la app
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
+  const [name, setName] = useState('');
 
+
+  // Carga de fonts
+  //const [fontsLoaded] = useFonts({
+  //  'RobotoMono-Bold': require('./assets/fonts/static/RobotoMono-Bold.ttf'),
+  //});
+  var fetchStatus = 0;
+  var autoExamen = 0;
+  var pressed = 0;
 
   const handleButtonPress = () => {
     setModalVisible(true);
+  };
+
+  const handleAssistanceButtonPress = () => {
+    // Handle button press here
+    if(pressed == 1){
+      pressed = 0;
+    }else{
+      pressed = 1;
+    }
+    console.log(pressed);
   };
 
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
+  useEffect(() => { 
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/fetchPatients');
+        const data = response.data;
+        console.log(data[0][1]);
+        setName(data[0][1])
+        fetchStatus =  1;
+      } catch (error) {
+        console.log('Error:', error);
+        fetchStatus =  0;
+      }
+    };
 
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -27,19 +70,64 @@ export default function App() {
         <View style={minSalLogo.logoLeft} />
         <View style={minSalLogo.logoRight} />
         <Text style={generalStyles.titles}>MPC</Text>
-
         <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
-
       </View>
 
-      <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
-          <View style={styles.modalContainer}>
-            <Button title="Cerrar" onPress={handleModalClose} />
-            <View style={styles.dropdownContainer}>
-              <Button title=""/>
-            </View>
+      <View style={body.container}>
+        <View style={body.containerB}>
+          <View style={{flexDirection:'row'}}>
+            <Text style={body.boldText}>Nombre: </Text>
+            <Text style={generalStyles.nText}>
+              {fetchStatus ? {name} : "Undefined"}
+            </Text>
           </View>
-        </Modal>
+          <View style={{flexDirection:'row'}}>
+            <Text style={body.boldText}>Teléfono: </Text>
+            <Text style={generalStyles.nText}>
+              {fetchStatus ? {telefono} : "Undefined"}
+            </Text>
+          </View>
+          <View style={{flexDirection:'row'}}>
+            <Text style={body.boldText}>Dirección: </Text>
+            <Text style={generalStyles.nText}>
+              {fetchStatus ? {direccion} : "Undefined"}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={body.boldText}>Autoexamen: </Text>
+            <Text style={generalStyles.nText}>{autoExamen ? "Realizado" : "No Realizado"}</Text>
+          </View>
+        </View>
+        
+        <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
+           backgroundColor: '#fbfbe1',
+            flex:1,
+            paddingBottom: 16}]}>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
+          {["Tomar Awita.", "Comer.", "Tomarse una siestesita."].map((text, index) => (
+            <Text key={index} style={{fontSize: 15}}>* {text}</Text>
+          ))}
+        </View>
+        
+        <View style={{justifyContent: 'center', alignItems: 'center' }}>
+          <AssistanceButton onPress={handleAssistanceButtonPress} />
+        </View>
+      </View>
+      <View style={{alignItems: 'center' }}>
+          <AutoexamenButton onPress={handleAssistanceButtonPress} />
+      </View>
+      
+
+      <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
+        <View style={styles.modalContainer}>
+          <Button title="Cerrar" onPress={handleModalClose} />
+          <View style={styles.dropdownContainer}>
+            <Button title="Configuración"/>
+            <Button title="Contactar Médico"/>
+            <Button title="Soporte"/>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -87,9 +175,37 @@ const generalStyles = StyleSheet.create({
     fontSize:34,
     fontWeight:"bold",
     color:"black",
-    fontFamily: "Roboto",
+    //fontFamily: "normal",
     textAlignVertical: "top",
     letterSpacing:.8,
+  },
+  nText: {
+    fontSize:20,
+    color:"black",
+    textAlignVertical: "top",
+    letterSpacing:.8,
+  }
+
+});
+
+const body = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: '#fafafa',
+    borderColor: 'gray',
+    marginBottom: height * 0.2,
+  },
+  containerB: {
+    marginLeft: width* 0.03,
+  },
+  boldText: {
+    //fontStyle:'RobotoMono-Bold',
+    fontWeight:'bold',
+    fontSize: height * 0.03,
+  },
+  subplotText: {
+
   },
 
 });

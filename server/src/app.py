@@ -7,7 +7,6 @@ PatientRoutes = PatientRoutes()
 app.config.from_object(ServerConfig) #We pass pointer to config class located in config.py file
 
 
-
 if __name__ == "__main__":
     
     
