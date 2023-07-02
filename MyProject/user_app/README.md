@@ -11,7 +11,10 @@ npm install react-native-reanimated react-native-gesture-handler react-native-sc
 
 EXAMPLE OF NAVIGATION IMPLEMENTATION WITH TWO VIEWS CALLED main.js AND patientView.js:::
 
+
 ========NAVIGATION STRUCTURE========
+
+
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -29,6 +32,8 @@ const StackNavigator = createStackNavigator(
 );
 
 export default createAppContainer(StackNavigator);
+
+
 ====================================
 
 
@@ -71,6 +76,8 @@ const PatientViewScreen = () => {
 };
 
 export default PatientViewScreen;
+
+
 ============================================
 
 
