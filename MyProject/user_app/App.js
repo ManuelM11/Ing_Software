@@ -33,25 +33,11 @@ export default function App() {
       </View>
 
       <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
-          <View style={{
-            backgroundColor:'white',
-            paddingBottom: height,
-            marginBottom: 0,
-            flexDirection:"row",
-            justifyContent:"center",          
-          }}>
-            <Button title="Close" onPress={handleModalClose} />
-            <DropDownPicker
-              items={[
-                { label: 'Option 1', value: 'option1' },
-                { label: 'Option 2', value: 'option2' },
-                { label: 'Option 3', value: 'option3' },
-              ]}
-              defaultValue={selectedValue}
-              containerStyle={{ height: 40 }}
-              onChangeItem={(item) => setSelectedValue(item.value)}
-            />
-
+          <View style={styles.modalContainer}>
+            <Button title="Cerrar" onPress={handleModalClose} />
+            <View style={styles.dropdownContainer}>
+              <Button title=""/>
+            </View>
           </View>
         </Modal>
     </View>
@@ -82,6 +68,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.06,
     paddingVertical: height * 0.03,
     alignSelf: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: height * 0.02,
+    paddingHorizontal: width * 0.05,
+  },
+  dropdownContainer: {
+    height: 40,
+    marginTop: 16,
   },
 
 });
