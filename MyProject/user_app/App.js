@@ -57,11 +57,50 @@ export default function App() {
         <Text style={generalStyles.titles}>MPC</Text>
         <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
       </View>
-      
-      {loading ? (<Text> Loading ... </Text>) : (
-        console.log(data)
-      )}
-        <View style={{alignItems: 'center' }}>
+      <View style={body.container}>
+        {loading ? (<Text> Loading ... </Text>) : 
+          
+            <View style={body.containerB}>
+              <View style={{flexDirection:'row'}}>
+                <Text style={body.boldText}>Nombre: </Text>
+                <Text style={generalStyles.nText}> 
+                  {data[0][1]}
+                </Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+                <Text style={body.boldText}>Teléfono: </Text>
+                <Text style={generalStyles.nText}>
+                  {data[0][3]}
+                </Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+                <Text style={body.boldText}>Mail: </Text>
+                <Text style={generalStyles.nText}>
+                  {data[0][4]}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={body.boldText}>Autoexamen: </Text>
+                <Text style={generalStyles.nText}>{autoExamen ? "Realizado" : "No Realizado"}</Text>
+              </View>
+            </View>
+          }
+          <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
+            backgroundColor: '#fbfbe1',
+              flex:1,
+              paddingBottom: 16}]}>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
+            {["Tomar Awita.", "Comer.", "Tomarse una siestesita."].map((text, index) => (
+              <Text key={index} style={{fontSize: 15}}>* {text}</Text>
+            ))}
+            <View style={{position: 'relative', top: 160, left: width * 0.33}}>
+              <AssistanceButton onPress={handleAssistanceButtonPress} />
+            </View>
+        </View>
+        </View> 
+        
+        
+        <View style={{position: 'relative', left: width * 0.28}}>
             <AutoexamenButton onPress={handleAssistanceButtonPress} />
         </View>
       
