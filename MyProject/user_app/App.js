@@ -4,27 +4,21 @@ import DropDownPicker from 'react-native-dropdown-picker'; // DropDownPicker (Al
 import React, { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font'; // Carga de fonts
 import {AssistanceButton, AutoexamenButton} from './AppButtons';
-import axios from 'axios';
-
-
 
 const { width, height } = Dimensions.get('window');
-
-
-  
 
 // Corresponde a el return de la parte visual de la app
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
-  const [name, setName] = useState('');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const url = 'https://0f2a-190-95-120-224.ngrok-free.app/fetchPatients'//'https://facebook.github.io/react-native/movies.json'
 
   // Carga de fonts
   //const [fontsLoaded] = useFonts({
   //  'RobotoMono-Bold': require('./assets/fonts/static/RobotoMono-Bold.ttf'),
   //});
-  var fetchStatus = 0;
   var autoExamen = 0;
   var pressed = 0;
 
@@ -46,22 +40,13 @@ export default function App() {
     setModalVisible(false);
   };
 
-  useEffect(() => { 
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/fetchPatients');
-        const data = response.data;
-        console.log(data[0][1]);
-        setName(data[0][1])
-        fetchStatus =  1;
-      } catch (error) {
-        console.log('Error:', error);
-        fetchStatus =  0;
-      }
-    };
-
-    fetchData();
-  }, []);
+  useEffect(()=>{
+    fetch(url)
+    .then((response)=>response.json())
+    .then((json)=>setData(json))
+    .catch((error)=>console.error(error))
+    .finally(()=>setLoading(false))
+  },[]);
 
   return (
     <View style={styles.container}>
@@ -72,50 +57,13 @@ export default function App() {
         <Text style={generalStyles.titles}>MPC</Text>
         <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
       </View>
-
-      <View style={body.container}>
-        <View style={body.containerB}>
-          <View style={{flexDirection:'row'}}>
-            <Text style={body.boldText}>Nombre: </Text>
-            <Text style={generalStyles.nText}>
-              {fetchStatus ? {name} : "Undefined"}
-            </Text>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text style={body.boldText}>Teléfono: </Text>
-            <Text style={generalStyles.nText}>
-              {fetchStatus ? {telefono} : "Undefined"}
-            </Text>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text style={body.boldText}>Dirección: </Text>
-            <Text style={generalStyles.nText}>
-              {fetchStatus ? {direccion} : "Undefined"}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={body.boldText}>Autoexamen: </Text>
-            <Text style={generalStyles.nText}>{autoExamen ? "Realizado" : "No Realizado"}</Text>
-          </View>
+      
+      {loading ? (<Text> Loading ... </Text>) : (
+        console.log(data)
+      )}
+        <View style={{alignItems: 'center' }}>
+            <AutoexamenButton onPress={handleAssistanceButtonPress} />
         </View>
-        
-        <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
-           backgroundColor: '#fbfbe1',
-            flex:1,
-            paddingBottom: 16}]}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
-          {["Tomar Awita.", "Comer.", "Tomarse una siestesita."].map((text, index) => (
-            <Text key={index} style={{fontSize: 15}}>* {text}</Text>
-          ))}
-        </View>
-        
-        <View style={{justifyContent: 'center', alignItems: 'center' }}>
-          <AssistanceButton onPress={handleAssistanceButtonPress} />
-        </View>
-      </View>
-      <View style={{alignItems: 'center' }}>
-          <AutoexamenButton onPress={handleAssistanceButtonPress} />
-      </View>
       
 
       <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
