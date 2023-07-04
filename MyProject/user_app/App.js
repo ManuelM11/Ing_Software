@@ -49,6 +49,7 @@ function PatientMenu({ navigation }) {
 
   const handleAssistanceButtonPress = () => {
     // Handle button press here
+    navigation.navigate('Asistencia')
     if(pressed == 1){
       pressed = 0;
     }
@@ -100,19 +101,25 @@ function PatientMenu({ navigation }) {
             </View>
             </View>
             }
-            
-          <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
-            backgroundColor: '#fbfbe1',
-              flex:1,
-              paddingBottom: height*0.2}]}>
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
-            {["Tomar Awita.", "Comer.", "Tomarse una siestesita."].map((text, index) => (
-              <Text key={index} style={{fontSize: 15}}>* {text}</Text>
-            ))}
-            <View style={{position: 'relative', top: 160, left: width * 0.33}}>
-              <AssistanceButton onPress={handleAssistanceButtonPress} />
+            <View style={[body.containerB, {
+                  backgroundColor: '#fbfbe1'}]}>
+                <View style={{margin:height * 0.01 + width * 0.01,
+                    flex:1,
+                    paddingBottom: height*0.2}}>
+                  <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
+                  {["Tomar medicinas a las 08:00 am",
+                  "Realizar estiramientos a las 10:00 am.",
+                  "Desayuno ligero, prohibido tomar café.",
+                  "Almuerzo (Sin condimentos ni bebidas gaseosas): Arroz con huevo, Fideos con huevo.",
+                  "..."].map((text, index) => (
+                    <Text key={index} style={{fontSize: 15}}>* {text}</Text>
+                  ))}
+                  <View style={{position: 'absolute', top: 200, left: width * 0.28}}>
+                    <AssistanceButton onPress={handleAssistanceButtonPress} />
+                  </View>
+                </View>
             </View>
-        </View>
+          
         </View> 
         
         
@@ -153,7 +160,6 @@ function AutoExamen({ navigation }) {
     IsSubmited(!submit);
     autoExamen = true;
     navigation.navigate('PatientMenu');
-
   };
 
   const ToshandleCheck = () => {
@@ -236,6 +242,23 @@ function AutoExamen({ navigation }) {
   );
 }
 
+function Asistencia({ navigation }) {
+  return (
+    <View>
+      <Text style={[generalStyles.nText,, {marginHorizontal:width * 0.1, marginTop:width * 0.1}]}>
+      Estamos contactando a su Médico/Funcionario a cargo.
+      En la brevedad, recibirá una llamada de auxilio.
+      </Text>
+      <Text style={[generalStyles.nText,, {marginHorizontal:width * 0.1}]}>
+      Se le recomienda estar en calma, no realizar movimientos bruscos
+      y seguir las indicaciones del médico o funcionario a cargo que tenga
+      disponibles o le de al momento de que se contacte con usted.
+      </Text>
+    </View>
+  );
+}
+
+
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   
@@ -290,7 +313,23 @@ export default function App() {
                   <View style={styles.headBar2}>
                     <View style={minSalLogo.logoLeft} />
                     <View style={minSalLogo.logoRight} />
-                    <Text style={generalStyles.titles}>Auto Examen</Text>
+                    <Text style={generalStyles.titles}>Autoexamen</Text>
+                  </View>
+                  <View style={{position: 'relative', left: width * 0.28}}>
+                    <MODAL onPress={any} />
+                  </View>
+              </View>),
+           }} 
+          />
+          <Stack.Screen name="Asistencia"
+          component={Asistencia}
+          options={{
+            headerTitle: () => (
+              <View style={styles.container}>
+                  <View style={styles.headBar2}>
+                    <View style={minSalLogo.logoLeft} />
+                    <View style={minSalLogo.logoRight} />
+                    <Text style={generalStyles.titles}>Asistencia</Text>
                   </View>
                   <View style={{position: 'relative', left: width * 0.28}}>
                     <MODAL onPress={any} />
@@ -365,7 +404,7 @@ const body = StyleSheet.create({
     marginBottom: height * 0.2,
   },
   containerB: {
-    marginLeft: width* 0.03,
+    marginHorizontal: width* 0.03,
   },
   boldText: {
     //fontStyle:'RobotoMono-Bold',
