@@ -29,7 +29,7 @@ function PatientMenu({ navigation }) {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 1000);
   }, []);
   
 
@@ -67,12 +67,13 @@ function PatientMenu({ navigation }) {
   return (
 
     <View style={styles.container}>
-      <View style={body.container}>
-        <SafeAreaView>
+      <SafeAreaView>
         <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
+      <View style={body.container}>
+        
         {loading ? (<Text> Loading ... </Text>) : 
           <View style={body.containerB}>
               <View style={{flexDirection:'row'}}>
@@ -103,7 +104,7 @@ function PatientMenu({ navigation }) {
           <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
             backgroundColor: '#fbfbe1',
               flex:1,
-              paddingBottom: 16}]}>
+              paddingBottom: height*0.2}]}>
             <Text style={{fontWeight: 'bold', fontSize: 20}}>Indicaciones: </Text>
             {["Tomar Awita.", "Comer.", "Tomarse una siestesita."].map((text, index) => (
               <Text key={index} style={{fontSize: 15}}>* {text}</Text>
@@ -112,15 +113,15 @@ function PatientMenu({ navigation }) {
               <AssistanceButton onPress={handleAssistanceButtonPress} />
             </View>
         </View>
-        </ScrollView>
-        </SafeAreaView>
         </View> 
         
         
-        <View style={{position: 'relative', left: width * 0.28}}>
+        
+        </ScrollView>
+        </SafeAreaView>
+        <View style={{position: 'relative',top:-100, left: width * 0.28}}>
             <AutoexamenButton onPress={() => navigation.navigate('AutoExamen')} />
         </View>
-      
 
       <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
         <View style={styles.modalContainer}>
