@@ -1,17 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Modal, Button} from 'react-native';
+import { RefreshControl, SafeAreaView,
+  ScrollView, StyleSheet,
+   Text, View, Image,
+    Dimensions, TouchableOpacity,
+     Modal, Button, Check} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker'; // DropDownPicker (Al final no lo usé :v), pero lo dejo ahi
 import React, { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font'; // Carga de fonts
-import {AssistanceButton, AutoexamenButton} from './AppButtons';
+import {AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton} from './AppButtons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 const { width, height } = Dimensions.get('window');
+const Stack = createNativeStackNavigator();
+
+var autoExamen = false;
+var pressed = 0;
 
 // Corresponde a el return de la parte visual de la app
-export default function App() {
+function PatientMenu({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  
 
   const url = 'https://0f2a-190-95-120-224.ngrok-free.app/fetchPatients'//'https://facebook.github.io/react-native/movies.json'
 
@@ -19,25 +39,21 @@ export default function App() {
   //const [fontsLoaded] = useFonts({
   //  'RobotoMono-Bold': require('./assets/fonts/static/RobotoMono-Bold.ttf'),
   //});
-  var autoExamen = 0;
-  var pressed = 0;
 
   const handleButtonPress = () => {
     setModalVisible(true);
+  };
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   const handleAssistanceButtonPress = () => {
     // Handle button press here
     if(pressed == 1){
       pressed = 0;
-    }else{
-      pressed = 1;
     }
+    else{ pressed = 1;}
     console.log(pressed);
-  };
-
-  const handleModalClose = () => {
-    setModalVisible(false);
   };
 
   useEffect(()=>{
@@ -49,18 +65,16 @@ export default function App() {
   },[]);
 
   return (
+
     <View style={styles.container}>
-      <View style={styles.containerNoty} />
-      <View style={styles.headBar}>
-        <View style={minSalLogo.logoLeft} />
-        <View style={minSalLogo.logoRight} />
-        <Text style={generalStyles.titles}>MPC</Text>
-        <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
-      </View>
       <View style={body.container}>
+        <SafeAreaView>
+        <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {loading ? (<Text> Loading ... </Text>) : 
-          
-            <View style={body.containerB}>
+          <View style={body.containerB}>
               <View style={{flexDirection:'row'}}>
                 <Text style={body.boldText}>Nombre: </Text>
                 <Text style={generalStyles.nText}> 
@@ -80,11 +94,12 @@ export default function App() {
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Text style={body.boldText}>Autoexamen: </Text>
-                <Text style={generalStyles.nText}>{autoExamen ? "Realizado" : "No Realizado"}</Text>
-              </View>
+              <Text style={body.boldText}>Autoexamen: </Text>
+              <Text style={generalStyles.nText}>{autoExamen ? "Realizado" : "No Realizado"}</Text>
             </View>
-          }
+            </View>
+            }
+            
           <View style={[body.containerB, {margin:height * 0.01 + width * 0.01,
             backgroundColor: '#fbfbe1',
               flex:1,
@@ -97,11 +112,13 @@ export default function App() {
               <AssistanceButton onPress={handleAssistanceButtonPress} />
             </View>
         </View>
+        </ScrollView>
+        </SafeAreaView>
         </View> 
         
         
         <View style={{position: 'relative', left: width * 0.28}}>
-            <AutoexamenButton onPress={handleAssistanceButtonPress} />
+            <AutoexamenButton onPress={() => navigation.navigate('AutoExamen')} />
         </View>
       
 
@@ -115,34 +132,197 @@ export default function App() {
           </View>
         </View>
       </Modal>
+      
     </View>
+  );
+}
+function AutoExamen({ navigation }) {
+  const [TosIsChecked, setTosIsChecked] = useState(false);
+  const [DiarreaIsChecked, setDiarreaIsChecked] = useState(false);
+  const [DificultadRespiratoriaIsChecked, setDificultadRespiratoriaIsChecked] = useState(false);
+  const [DolorCabezaIsChecked, setDolorCabezaIsChecked] = useState(false);
+  const [MalestarGeneralIsChecked, setMalestarGeneralIsChecked] = useState(false);
+  const [DoloresMuscularesIsChecked, setDoloresMuscularesIsChecked] = useState(false);
+  const [FiebreIsChecked, setFiebreIsChecked] = useState(false);
+  const [SecrecionNasalIsChecked, setSecrecionNasalIsChecked] = useState(false);
+  const [DolorGargantaIsChecked, setDolorGargantaIsChecked] = useState(false);
+  const [submit, IsSubmited] = useState(false);
+
+  const SubmithandleCheck = () => {
+    IsSubmited(!submit);
+    autoExamen = true;
+    navigation.navigate('PatientMenu');
+
+  };
+
+  const ToshandleCheck = () => {
+    setTosIsChecked(!TosIsChecked);
+  };
+  const DiarreahandleCheck = () => {
+    setDiarreaIsChecked(!DiarreaIsChecked);
+  };
+  const DificultadRespiratoriahandleCheck = () => {
+    setDificultadRespiratoriaIsChecked(!DificultadRespiratoriaIsChecked);
+  };
+  const DolorCabezahandleCheck = () => {
+    setDolorCabezaIsChecked(!DolorCabezaIsChecked);
+  };
+  const MalestarGeneralhandleCheck = () => {
+    setMalestarGeneralIsChecked(!MalestarGeneralIsChecked);
+  };
+  const DoloresMusculareshandleCheck = () => {
+    setDoloresMuscularesIsChecked(!DoloresMuscularesIsChecked);
+  };
+  const FiebrehandleCheck = () => {
+    setFiebreIsChecked(!FiebreIsChecked);
+  };
+  const SecrecionNasalhandleCheck = () => {
+    setSecrecionNasalIsChecked(!SecrecionNasalIsChecked);
+  };
+  const DolorGargantahandleCheck = () => {
+    setDolorGargantaIsChecked(!DolorGargantaIsChecked);
+  };
+  
+
+
+  return(
+    <View style={styles.container}>
+        <View style={[body.containerB, 
+          {margin:height * 0.01 + width * 0.01,
+            backgroundColor: '#fbfbe1',
+            flex:1,
+            paddingBottom: 16}]}>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Tos</Text>
+            {TosIsChecked ? <CheckBoxChecked onPress={ToshandleCheck} /> : <CheckBoxUnchecked onPress={ToshandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Diarrea</Text>
+            {DiarreaIsChecked ? <CheckBoxChecked onPress={DiarreahandleCheck} /> : <CheckBoxUnchecked onPress={DiarreahandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Dificultad Respiratoria</Text>
+            {DificultadRespiratoriaIsChecked ? <CheckBoxChecked onPress={DificultadRespiratoriahandleCheck} /> : <CheckBoxUnchecked onPress={DificultadRespiratoriahandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Dolor Cabeza</Text>
+            {DolorCabezaIsChecked ? <CheckBoxChecked onPress={DolorCabezahandleCheck} /> : <CheckBoxUnchecked onPress={DolorCabezahandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Malestar General</Text>
+            {MalestarGeneralIsChecked ? <CheckBoxChecked onPress={MalestarGeneralhandleCheck} /> : <CheckBoxUnchecked onPress={MalestarGeneralhandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Dolores Musculares</Text>
+            {DoloresMuscularesIsChecked ? <CheckBoxChecked onPress={DoloresMusculareshandleCheck} /> : <CheckBoxUnchecked onPress={DoloresMusculareshandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Fiebre (Sobre 36.5°)</Text>
+            {FiebreIsChecked ? <CheckBoxChecked onPress={FiebrehandleCheck} /> : <CheckBoxUnchecked onPress={FiebrehandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Secreción Nasal</Text>
+            {SecrecionNasalIsChecked ? <CheckBoxChecked onPress={SecrecionNasalhandleCheck} /> : <CheckBoxUnchecked onPress={SecrecionNasalhandleCheck} />}
+          </View>
+          <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
+            <Text style={generalStyles.nText}>* Dolor de Garganta</Text>
+            {DolorGargantaIsChecked ? <CheckBoxChecked onPress={DolorGargantahandleCheck} /> : <CheckBoxUnchecked onPress={DolorGargantahandleCheck} />}
+          </View>
+        </View>
+        <SubmitAutoexamenButton onPress={SubmithandleCheck}/>
+
+    </View>
+  );
+}
+
+export default function App() {
+  const [modalVisible, setModalVisible] = useState(false);
+  
+
+  const handleButtonPress = () => {
+    setModalVisible(true);
+  };
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+  const any = 0;
+  const MODAL = ({any}) =>{
+    return (
+      <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>
+        <View style={styles.modalContainer}>
+          <Button title="Cerrar" onPress={handleModalClose} />
+          <View style={styles.dropdownContainer}>
+            <Button title="Configuración"/>
+            <Button title="Contactar Médico"/>
+            <Button title="Soporte"/>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='PatientMenu'>
+        <Stack.Screen name="PatientMenu"
+         component={PatientMenu}
+         options={{
+          headerTitle: () => (
+            <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={generalStyles.titles}>MPC</Text>
+                <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL onPress={handleModalClose} />
+                </View>
+            </View>),
+         }} 
+         />
+        <Stack.Screen name="AutoExamen"
+          component={AutoExamen}
+          options={{
+            headerTitle: () => (
+              <View style={styles.container}>
+                  <View style={styles.headBar2}>
+                    <View style={minSalLogo.logoLeft} />
+                    <View style={minSalLogo.logoRight} />
+                    <Text style={generalStyles.titles}>Auto Examen</Text>
+                  </View>
+                  <View style={{position: 'relative', left: width * 0.28}}>
+                    <MODAL onPress={any} />
+                  </View>
+              </View>),
+           }} 
+          />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    backgroundColor:'#fff',
-  },
-  containerNoty:{
-    backgroundColor:'#fff',
-    marginTop: height * 0.03,
   },
   headBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
-    paddingHorizontal: width * 0.05, // 5% of the screen width
+    justifyContent:'space-between' ,
+    paddingHorizontal: width * 0.12, // 5% of the screen width
     paddingTop: height * 0.03, // 3% of the screen height
-    backgroundColor: '#f2f2f2',
     height: height * 0.1,
-    borderBottomWidth: .5,
-    borderBottomColor: '#ccc',
+  },
+  headBar2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: height * 0.03, // 3% of the screen height
+    height: height * 0.1,
   },
   button: {
-    paddingHorizontal: width * 0.06,
-    paddingVertical: height * 0.03,
-    alignSelf: 'center',
+    position: 'relative',
+    right: 20
   },
   modalContainer: {
     flex: 1,
@@ -171,7 +351,7 @@ const generalStyles = StyleSheet.create({
     color:"black",
     textAlignVertical: "top",
     letterSpacing:.8,
-  }
+  },
 
 });
 
@@ -215,5 +395,17 @@ const minSalLogo = StyleSheet.create({
     height: height * 0.02, // 3% of the screen height
     backgroundColor: 'red',
     paddingBottom: height * 0.02, // 2% of the screen height
+  },
+});
+
+const refreshStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
