@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions, Text, Image } from 'react-native';
-import styles from '../user_app/styles/styles';
+import styles from '../styles/styles';
 
 
 const { width, height } = Dimensions.get('window');
@@ -26,10 +26,9 @@ const AutoexamenButton = ({ onPress }) => {
 };
 
 const CheckBoxChecked = ({ onPress }) => {
-
   return (
     <TouchableOpacity style={styles.isChecked} onPress={onPress}>
-      <Image source={require('./assets/isChecked.png')} style={{position:'absolute', top:2.2, left:2.2, width: 20, height: 20 }}/>
+      <Image source={require('../assets/isChecked.png')} style={{position:'absolute', top:2.2, left:2.2, width: 20, height: 20 }}/>
     </TouchableOpacity>
   )
 }

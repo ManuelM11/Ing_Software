@@ -72,7 +72,7 @@ export default function App() {
         />
         <Stack.Screen name="PatientMenu"
          component={PatientMenu}
-         initialParams={{ user: 0, url: URL }}
+         initialParams={{ url: URL }}
          options={{
           headerTitle: () => (
             <View style={styles.container}>

@@ -1,7 +1,7 @@
 // Navigation
 import { RefreshControl, SafeAreaView, ScrollView, Text, View, Dimensions, Modal, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import {AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton} from '../../utils/AppButtons';
+import {AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton} from '../utils/AppButtons';
 
 
 // Styles
@@ -17,7 +17,6 @@ export default function PatientMenu({ route, navigation }) {
 
   // Route params. SI NO SE UTILIZA LAS VARIABLES SON UNDEFINED
   const { user, url, autoExamen } = route.params
-
   // useState
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
@@ -117,7 +116,7 @@ export default function PatientMenu({ route, navigation }) {
         </ScrollView>
         </SafeAreaView>
         <View style={{position: 'relative',top:-100, left: width * 0.28}}>
-            <AutoexamenButton onPress={() => navigation.navigate('AutoExamen')} />
+            <AutoexamenButton onPress={() => navigation.navigate('AutoExamen', { user: user})} />
         </View>
 
       <Modal visible={modalVisible} animationType='slide' transparent={true} onRequestClose={handleModalClose}>

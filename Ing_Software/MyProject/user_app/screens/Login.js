@@ -40,7 +40,7 @@ export default function Login({ route, navigation }) {
         c = data[i];
         if(c.includes(userText)){
           if(c[5] == Pass){
-            navigation.navigate('PatientMenu', {url: url, autoExamen: false });
+            navigation.navigate('PatientMenu', { autoExamen: false, user: i });
             break;
           }else{setModalVisible(true);}
         }

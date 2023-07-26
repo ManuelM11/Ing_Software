@@ -1,7 +1,7 @@
 // Navigation
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton } from '../../utils/AppButtons';
+import { AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton } from '../utils/AppButtons'
 
 // Styles
 import styles from '../styles/styles';
@@ -12,8 +12,9 @@ import body from '../styles/body';
 const { width, height } = Dimensions.get('window');
 
 //Function
-export default function AutoExamen({ navigation }) {
+export default function AutoExamen({ route, navigation }) {
   // Si es posible, encontrar una forma de mejorar esto. Es demasiado codigo y deberia existir
+  const { user } = route.params
   // alguna forma de dejarlo mas bonito
   const [TosIsChecked, setTosIsChecked] = useState(false);
   const [DiarreaIsChecked, setDiarreaIsChecked] = useState(false);
@@ -29,7 +30,7 @@ export default function AutoExamen({ navigation }) {
   const SubmithandleCheck = () => {
     IsSubmited(!submit);
     // Siempre sera true una vez el usuario entre a autoExamen
-    navigation.navigate('PatientMenu', { autoExamen: true });
+    navigation.navigate('PatientMenu', { autoExamen: true, user:user });
   };
 
   // Handlers para cada checkBox
