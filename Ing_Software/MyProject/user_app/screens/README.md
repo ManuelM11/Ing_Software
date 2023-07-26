@@ -34,6 +34,7 @@ La estructura es:
 La funcion va:
 
 export default function funcion( { route, navigation }){
+
     const { parametros } = route.params; // SI NO SE UTILIZA LAS VARIABLES SON UNDEFINED
 
 }
