@@ -13,7 +13,7 @@ class PatientRoutes:
     def fetchPatients(self):
         simple_page = Blueprint("fetchPatients",__name__)
         @simple_page.route("/fetchPatients")
-        # @cross_origin()
+        @cross_origin()
         def index():
             statement = "SELECT * FROM PACIENTE"
             results = DB.query(statement)

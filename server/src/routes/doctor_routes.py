@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, Response
 from config import ServerConfig
 from models.db import Db
 from models.doctor import mapToDoctor
+from flask_cors import cross_origin
 import json
 #We set blueprients routes to modularize api rest
 DB = Db()
@@ -10,6 +11,7 @@ class DoctorRoutes:
     def fetchDoctor(self):
         simple_page = Blueprint("fetchDoctors",__name__)
         @simple_page.route("/fetchDoctor",methods = ["GET"])
+        @cross_origin()
         def index():
             statement= "SELECT * FROM FUNCIONARIO"
             results = DB.query(statement)
@@ -20,6 +22,7 @@ class DoctorRoutes:
     def fetchDoctorByRut(self):
         simple_page = Blueprint("fetchDoctorByRut",__name__)
         @simple_page.route("/fetchDoctorByRut/<rut>",methods =["GET"])
+        @cross_origin()
         def f(rut):
             statement = f"SELECT * FROM FUNCIONARIO WHERE RUT = {rut}"
             results = DB.query(statement)
@@ -29,6 +32,7 @@ class DoctorRoutes:
     def registerDoctor(self):
         simple_page = Blueprint("registerDoctor",__name__)
         @simple_page.route("/registerDoctor", methods = ["POST"])
+        @cross_origin()
         def f():
             data = request.get_json()
             doctor = mapToDoctor(data)
