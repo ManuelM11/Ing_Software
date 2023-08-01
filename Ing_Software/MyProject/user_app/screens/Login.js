@@ -36,15 +36,22 @@ export default function Login({ route, navigation }) {
       setModalVisible(false);
     }
     const handleSesion = () => {
-      for(let i = 0; i < data.length;i++){
-        c = data[i];
-        if(c.includes(userText)){
-          if(c[5] == Pass){
+      if(data.length === 0){
+        alert("No hay usuarios registrados");
+      };
+      for (let i = 0; i < data.length; i++) {
+        const userData = data[i]; // Assuming `data` is an array of user data
+        if (userData.includes(userText)) {
+          if (userData[5] === Pass) {
             navigation.navigate('PatientMenu', { autoExamen: false, user: i });
             break;
-          }else{setModalVisible(true);}
+          } else {
+            setModalVisible(true); // Show modal if password doesn't match
+          }
         }
-        if(i == data.length-1){setModalVisible(true);}
+        if (i === data.length - 1) {
+          setModalVisible(true); // Show modal if user not found
+        }
       }
     };
     

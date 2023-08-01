@@ -26,7 +26,7 @@ const { width, height } = Dimensions.get('window');
 const Stack = createNativeStackNavigator();
 
 // URL DE FETCH
-const URL = 'https://4c01-190-95-120-224.ngrok-free.app/fetchPatients';
+const URL = 'http://127.0.0.1:5000/fetchPatients';
 
 /*
 Mencionar que NavigationContainer corresponde al headbar, por lo tanto, puede modificarse la vista de este en 
@@ -46,14 +46,14 @@ export default function App() {
     setModalVisible(false);
   };
 
-  const any = 0;
+
 
   // Corresponde a la vista de las opciones del usuario (Ubicado en HeadBar)
   const MODAL = ({ navigation }) =>{
 
     const toConfig = () => {
       setModalVisible(false);
-      navigation.navigate('Configuracion');
+      navigation.navigate('Configuracion', { user: 1, url: URL });
     };
 
     const toMedic = () => {
@@ -172,7 +172,7 @@ export default function App() {
                 <View style={styles.headBar}>
                   <View style={minSalLogo.logoLeft} />
                   <View style={minSalLogo.logoRight} />
-                  <Text style={[generalStyles.titles, {position: 'absolute', padding: 16}]}>Contactar Médico</Text>
+                  <Text style={[generalStyles.titles, {position: 'absolute'}]}>Contactar Médico</Text>
                 </View>
                 <View style={{position: 'relative', left: width * 0.28}}>
                   <MODAL navigation={navigation} onPress={handleModalClose} />
@@ -189,7 +189,7 @@ export default function App() {
                 <View style={styles.headBar}>
                   <View style={minSalLogo.logoLeft} />
                   <View style={minSalLogo.logoRight} />
-                  <Text style={generalStyles.titles}>Soporte</Text>
+                  <Text style={[generalStyles.titles, {position: 'absolute', padding: 50}]}>Soporte</Text>
                 </View>
                 <View style={{position: 'relative', left: width * 0.28}}>
                   <MODAL navigation={navigation} onPress={handleModalClose} />

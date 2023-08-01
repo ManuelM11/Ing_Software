@@ -1,5 +1,5 @@
 // Navigation
-import { Text, View, Dimensions, StyleSheet } from 'react-native';
+import { Text, View, Dimensions, StyleSheet, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AssistanceButton, AutoexamenButton, CheckBoxChecked, CheckBoxUnchecked, SubmitAutoexamenButton } from '../utils/AppButtons'
 
@@ -22,7 +22,7 @@ export default function AutoExamen({ route, navigation }) {
   const [DolorCabezaIsChecked, setDolorCabezaIsChecked] = useState(false);
   const [MalestarGeneralIsChecked, setMalestarGeneralIsChecked] = useState(false);
   const [DoloresMuscularesIsChecked, setDoloresMuscularesIsChecked] = useState(false);
-  const [FiebreIsChecked, setFiebreIsChecked] = useState(false);
+  const [FiebreKey, setFiebreKey] = useState('');
   const [SecrecionNasalIsChecked, setSecrecionNasalIsChecked] = useState(false);
   const [DolorGargantaIsChecked, setDolorGargantaIsChecked] = useState(false);
   const [submit, IsSubmited] = useState(false);
@@ -52,8 +52,8 @@ export default function AutoExamen({ route, navigation }) {
   const DoloresMusculareshandleCheck = () => {
     setDoloresMuscularesIsChecked(!DoloresMuscularesIsChecked);
   };
-  const FiebrehandleCheck = () => {
-    setFiebreIsChecked(!FiebreIsChecked);
+  const Fiebrehandlekey = (number) => {
+    setFiebreKey(number);
   };
   const SecrecionNasalhandleCheck = () => {
     setSecrecionNasalIsChecked(!SecrecionNasalIsChecked);
@@ -96,8 +96,13 @@ export default function AutoExamen({ route, navigation }) {
             {DoloresMuscularesIsChecked ? <CheckBoxChecked onPress={DoloresMusculareshandleCheck} /> : <CheckBoxUnchecked onPress={DoloresMusculareshandleCheck} />}
           </View>
           <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
-            <Text style={generalStyles.nText}>* Fiebre (Sobre 36.5°)</Text>
-            {FiebreIsChecked ? <CheckBoxChecked onPress={FiebrehandleCheck} /> : <CheckBoxUnchecked onPress={FiebrehandleCheck} />}
+            <Text style={generalStyles.nText}>* Temperatura:</Text>
+            <TextInput
+              style={{ height: 33, borderColor: 'black', borderWidth: 3, borderRadius: 5, paddingHorizontal: width * 0.05, backgroundColor: 'white' }}
+              placeholder="Temperatura"
+              onChangeText={Fiebrehandlekey}
+              value={FiebreKey}
+            />
           </View>
           <View style={{justifyContent:'space-between', flexDirection: 'row', paddingRight:width*0.07, marginTop: 5, marginBottom:15}}>
             <Text style={generalStyles.nText}>* Secreción Nasal</Text>

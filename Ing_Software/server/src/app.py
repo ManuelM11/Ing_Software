@@ -1,17 +1,13 @@
 from flask import Flask
 from config import ServerConfig
-from flask_cors import CORS
-from routes.patient_routes import PatientRoutes
-from flask_sqlalchemy import SQLAlchemy
-
+from routes.routes import Router
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5000/fetchPatients"}})
-PatientRoutes = PatientRoutes()
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+router = Router()
 app.config.from_object(ServerConfig) #We pass pointer to config class located in config.py file
-
 if __name__ == "__main__":
-    
-    for i in PatientRoutes.getBlueprints():app.register_blueprint(i)
-    # app.register_blueprint(PatientRoutes.fetchPatients())
-    
+    for i in router.init():app.register_blueprint(i)
+    # app.register_blueprint(PatientRoutes.fetchPatients())    
     app.run()

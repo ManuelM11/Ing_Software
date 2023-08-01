@@ -6,9 +6,16 @@ class Db:
     p = 'FlaskServer' #Your login password
     def query(self,statement):
         conn = pymysql.connect(host=self.s, user=self.u,password=self.p,database=self.d)
-        cur = conn.cursor()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
         cur.execute(statement)
         results = cur.fetchall()
         conn.close()
         return results
+    def insert(self,statement,values):
+        values = tuple(values)
+        conn = pymysql.connect(host=self.s, user=self.u,password=self.p,database=self.d)
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute(statement,values)
+        conn.commit()
+        conn.close()
     
