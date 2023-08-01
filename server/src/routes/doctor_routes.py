@@ -17,7 +17,6 @@ class DoctorRoutes:
             results = DB.query(statement)
             return json.dumps(results,ensure_ascii=False)
         self.d_r.append(simple_page)
-        return simple_page
     
     def fetchDoctorByRut(self):
         simple_page = Blueprint("fetchDoctorByRut",__name__)
@@ -42,6 +41,7 @@ class DoctorRoutes:
                 return Response("201 Created", status=201, mimetype='application/json')
             return Response("404 ABORTED", status=404, mimetype='application/json')
         self.d_r.append(simple_page)
+        
     def getBluePrints(self):
         self.fetchDoctor()
         self.fetchDoctorByRut()
