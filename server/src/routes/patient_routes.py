@@ -1,6 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, Response, request
 from config import ServerConfig
 from models.db import Db
+from models.paciente import mapToPatient
+from flask_cors import cross_origin
 import json
 #Initializing db
 DB = Db()
@@ -9,27 +11,35 @@ class PatientRoutes:
     #We set patient routes
     p_r = []
     def fetchPatients(self):
-       
         simple_page = Blueprint("fetchPatients",__name__)
         @simple_page.route("/fetchPatients")
+        @cross_origin()
         def index():
-            statement = "SELECT * FROM FUNCIONARIO"
+            statement = "SELECT * FROM PACIENTE"
             results = DB.query(statement)
             return json.dumps(results,ensure_ascii=False)
         self.p_r.append(simple_page)
         return simple_page
     def fetchPatientById(self):
-        simple_page = Blueprint("fetchPatientById",__name__)
-        @simple_page.route("/fetchPatient/<id>")
-        def route(id):
-            return f"{id}"
+        simple_page = Blueprint("fetchPatientByRut",__name__)
+        @simple_page.route("/fetchPatientByRut/<rut>")
+        def route(rut):
+            statement = f"SELECT nombre,rut,direccion,telefono,email FROM PACIENTE WHERE RUT = {rut}"
+            results = DB.query(statement)
+            return json.dumps(results,ensure_ascii=False)
         self.p_r.append(simple_page)
         return simple_page
-    def deletePatientById(self):
-        simple_page = Blueprint("deletePatientById", __name__)
-        @simple_page.route("/deletePatient/<id>")
-        def route(id):
-            return f"Patient id {id} was deleted"
+    def registerPatient(self):
+        simple_page = Blueprint("registerPatient", __name__)
+        @simple_page.route("/registerPatient", methods = ["POST"])
+        def f():
+            data = request.get_json()
+            patient = mapToPatient(data)
+            if (patient!=None):
+                statement = """INSERT INTO PACIENTE (nombre,rut,fecha_nacimiento,fecha_diagnostico,telefono,email,direccion,password,id_semaforo,rut_funcionario) values (%s, %s, %s, %s,%s,%s,%s,%s,%s,%s)"""
+                DB.insert(statement,patient.getAttributes())
+                return Response("201 Created", status=201, mimetype='application/json')
+            return Response("404 ABORTED", status=404, mimetype='application/json')
         self.p_r.append(simple_page)
     def uploadPatientTest(self):
         simple_page = Blueprint("uploadPatientTest",__name__)
@@ -43,7 +53,7 @@ class PatientRoutes:
         #We call Blueprints
         self.fetchPatients()
         self.fetchPatientById()
-        self.deletePatientById()
+        self.registerPatient()
         self.uploadPatientTest()
         if (ServerConfig.DEBUG == True):
             #DEBUGGING
