@@ -1,20 +1,54 @@
-// Navigator 
-import { Text, View, Dimensions } from 'react-native';
-import React from 'react';
-
-// Styles
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import generalStyles from '../styles/generalStyles';
 
-// Variables
-const { width, height } = Dimensions.get('window');
+const patientsData = [
+  { id: 1, name: 'Paciente 1', status: 'rojo' },
+  { id: 2, name: 'Paciente 2', status: 'verde' },
+  { id: 3, name: 'Paciente 3', status: 'amarillo' },
+  // ... add more patient data here
+];
 
-// Function
-export default function Soporte({ navigation }) {
+export default function PatientList({ navigation }) {
+  const [patients, setPatients] = useState(patientsData);
+
+  const handlePatientPress = (patientId) => {
+    // Navigate to PatientDetails screen with the selected patient ID
+    navigation.navigate('PatientDetail', { patientId });
+  };
+
+  const renderPatientItem = ({ item }) => {
+    const getStatusColor = (status) => {
+      switch (status) {
+        case 'rojo':
+          return 'red';
+        case 'amarillo':
+          return 'yellow';
+        case 'verde':
+          return 'green';
+        default:
+          return 'black';
+      }
+    };
+
     return (
-        <View>
-          <Text style={[generalStyles.nText,, {marginHorizontal:width * 0.1, marginTop:width * 0.1}]}>
-          UNDER CONSTRUCTION
-          </Text>
-        </View>
-      );
-  }
+      <TouchableOpacity style={{ padding: 10 }} onPress={() => handlePatientPress(item.id)}>
+        <Text style={[generalStyles.nText, { color: getStatusColor(item.status) }]}>{item.name}</Text>
+        <Text style={[generalStyles.nText, { color: getStatusColor(item.status) }]}>
+          ESTADO: {item.status}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={generalStyles.titles}>Lista de Pacientes</Text>
+      <FlatList
+        data={patients}
+        renderItem={renderPatientItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </View>
+  );
+}

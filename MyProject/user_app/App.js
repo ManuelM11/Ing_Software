@@ -17,6 +17,9 @@ import Configuracion from './screens/Configuracion';
 import Contactar from './screens/Contactar';
 import Soporte from './screens/Soporte';
 import MedicMenu from './screens/MedicMenu';
+import Alert from './screens/Alert';
+import PatientList from './screens/PatientList';
+import PatientDetail from './screens/PatientDetail';
 
 
 // Styles
@@ -28,7 +31,7 @@ const { width, height } = Dimensions.get('window');
 const Stack = createNativeStackNavigator();
 
 // URL DE FETCH
-const URL = 'https://4c01-190-95-120-224.ngrok-free.app/fetchPatients';
+const url = 'http://127.0.0.1:5000/fetchPatients';
 
 /*
 Mencionar que NavigationContainer corresponde al headbar, por lo tanto, puede modificarse la vista de este en 
@@ -93,12 +96,12 @@ export default function App() {
         <Stack.Screen 
           name="Login"
           component={Login}
-          initialParams={{ url: URL }}
+          initialParams={{ url: 'http://127.0.0.1:5000/fetchPatients' }}
           options={{headerShown: false}}
         />
         <Stack.Screen name="PatientMenu"
          component={PatientMenu}
-         initialParams={{ url: URL }}
+         initialParams={{ url: 'http://127.0.0.1:5000/fetchPatients' }}
          options={({ navigation }) => ({
           headerTitle: () => (
             <View style={styles.container}>
@@ -220,7 +223,7 @@ export default function App() {
           })}
           />
           <Stack.Screen name="Alert"
-          component={Soporte}
+          component={Alert}
           options={({ navigation }) => ({
             headerTitle: () => (
               <View style={styles.container}>
@@ -237,7 +240,24 @@ export default function App() {
           })} 
           />
           <Stack.Screen name="PatientList"
-          component={Soporte}
+          component={PatientList}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={[generalStyles.titles, {position: 'absolute', padding: 0}]}>Lista de Pacientes</Text>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+          />
+          <Stack.Screen name="PatientDetail"
+          component={PatientDetail}
           options={({ navigation }) => ({
             headerTitle: () => (
               <View style={styles.container}>

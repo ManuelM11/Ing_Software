@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=$(cygpath "C:\Users\manue\OneDrive\Escritorio\Ing_Software\server\env")
+VIRTUAL_ENV=$(cygpath "C:\Users\Sphad\Desktop\Proyecto\Ing_Software\server\env")
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

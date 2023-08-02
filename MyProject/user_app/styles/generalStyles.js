@@ -8,6 +8,7 @@ const generalStyles = StyleSheet.create({
       fontWeight:"bold",
       color:"black",
       //fontFamily: "normal",
+      justifyContent: 'center',
       textAlignVertical: "top",
       letterSpacing:.8,
     },
@@ -15,7 +16,7 @@ const generalStyles = StyleSheet.create({
       fontSize:20,
       color:"black",
       textAlignVertical: "top",
-      letterSpacing:.8,
+      letterSpacing:.5,
     },
   
   });

@@ -18,13 +18,20 @@ export default function Login({ route, navigation }) {
     const [userText, setUserText] = useState('');
     const [loading, setLoading] = useState(true);
   
-    useEffect(()=>{
-      fetch(url)
-      .then((response)=>response.json())
-      .then((json)=>setData(json))
-      .catch((error)=>console.error(error))
-      .finally(()=>setLoading(false))
-    },[]);
+    useEffect(() => {
+      // Función para obtener la lista de pacientes desde el servidor
+      const fetchPatients = async () => {
+        try {
+          const response = await fetch('http://127.0.0.1:5000/fetchPatients'); // Cambia la URL según la dirección de tu servidor
+          const data = await response.json();
+          setPatients(data);
+        } catch (error) {
+          console.error('Error fetching patients:', error);
+        }
+      };
+  
+      fetchPatients();
+    }, []);
   
     const handlePassText = (text) => {
       setPass(text);

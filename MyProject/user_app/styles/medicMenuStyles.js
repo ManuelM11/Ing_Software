@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native';
 const medicMenuStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 30,
   },
   button: {
-    width: 200,
-    height: 50,
+    width: 350,
+    height: 60,
     backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
@@ -16,7 +17,7 @@ const medicMenuStyles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
   },
 });
