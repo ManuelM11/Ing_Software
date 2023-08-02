@@ -13,6 +13,7 @@ const { width, height } = Dimensions.get('window');
 export default function Login({route, navigation}){
     //#region Imports:
     const { url } = route.params;
+    const URL = url + "fetchDoctor";
     //#endregion
 
     //#region  Fetching:
@@ -20,7 +21,7 @@ export default function Login({route, navigation}){
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
-        fetch(url)
+        fetch(URL)
         .then((response)=>response.json())
         .then((json)=>setData(json))
         .catch((error)=>console.error(error))

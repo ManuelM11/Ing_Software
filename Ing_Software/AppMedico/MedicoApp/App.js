@@ -8,16 +8,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import Login from './screens/Login';
 import Main from './screens/Main';
-import generalStyles from './styles/generalStyles';
+import Alertas from './screens/Alertas';
+import AddPatient from './screens/AddPatient';
+import PatientList from './screens/PatientList';
+import Patient from './screens/Patient';
 
 // Styles
 import styles from './styles/styles';
 import minSalLogo from './styles/minSalLogo';
+import generalStyles from './styles/generalStyles';
 
 // Vars:
 
 const { width, height } = Dimensions.get('window');
-const URL = 'https://fd89-186-189-91-27.ngrok-free.app/fetchDoctor';
+const URL = 'https://fd89-186-189-91-27.ngrok-free.app/';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -93,6 +97,84 @@ export default function App() {
                 </View>
                 <View style={{position: 'relative', left: width * 0.28}}>
                   <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+        />
+        <Stack.Screen 
+          name="Alertas"
+          component={Alertas}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={generalStyles.titles}>MPC</Text>
+                  <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+        />
+        <Stack.Screen 
+          name="AddPatient"
+          component={AddPatient}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={generalStyles.titles}>MPC</Text>
+                  <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+        />
+        <Stack.Screen 
+          name="PatientList"
+          component={PatientList}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={{  fontSize:25,
+                                  fontWeight:"bold",
+                                  color:"black",
+                                  position: "absolute",
+                                  textAlignVertical: "top",
+                                  letterSpacing:.8,
+                                }}>Lista de Pacientes</Text>
+                </View>
+              </View>
+            ),
+          })} 
+        />
+        <Stack.Screen 
+          name="Patient"
+          component={Patient}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={[generalStyles.titles, {position:'absolute', padding: width*0.1}]}>Paciente</Text>
                 </View>
               </View>
             ),
