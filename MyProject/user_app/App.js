@@ -96,12 +96,12 @@ export default function App() {
         <Stack.Screen 
           name="Login"
           component={Login}
-          initialParams={{ url: 'http://127.0.0.1:5000/fetchPatients' }}
+          initialParams={{ url: URL }}
           options={{headerShown: false}}
         />
         <Stack.Screen name="PatientMenu"
          component={PatientMenu}
-         initialParams={{ url: 'http://127.0.0.1:5000/fetchPatients' }}
+         initialParams={{ url: URL }}
          options={({ navigation }) => ({
           headerTitle: () => (
             <View style={styles.container}>

@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import generalStyles from '../styles/generalStyles';
 
 const patientsData = [
-  { id: 1, name: 'Paciente 1', status: 'rojo' },
-  { id: 2, name: 'Paciente 2', status: 'verde' },
-  { id: 3, name: 'Paciente 3', status: 'amarillo' },
+  { id: 1, name: 'Vicente Gonzales', status: 'rojo' },
+  { id: 2, name: 'Nicolás Araya', status: 'verde' },
+  { id: 3, name: 'Manuel Muñoz', status: 'amarillo' },
   // ... add more patient data here
 ];
 
@@ -33,8 +33,8 @@ export default function PatientList({ navigation }) {
 
     return (
       <TouchableOpacity style={{ padding: 10 }} onPress={() => handlePatientPress(item.id)}>
-        <Text style={[generalStyles.nText, { color: getStatusColor(item.status) }]}>{item.name}</Text>
         <Text style={[generalStyles.nText, { color: getStatusColor(item.status) }]}>
+        <Text style={[generalStyles.nText, { color: 'black' }]}>{item.name}</Text>
           ESTADO: {item.status}
         </Text>
       </TouchableOpacity>
@@ -43,7 +43,6 @@ export default function PatientList({ navigation }) {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={generalStyles.titles}>Lista de Pacientes</Text>
       <FlatList
         data={patients}
         renderItem={renderPatientItem}
