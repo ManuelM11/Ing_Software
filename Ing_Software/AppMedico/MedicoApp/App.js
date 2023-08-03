@@ -12,6 +12,8 @@ import Alertas from './screens/Alertas';
 import AddPatient from './screens/AddPatient';
 import PatientList from './screens/PatientList';
 import Patient from './screens/Patient';
+import Configuracion from './screens/Configuracion';
+import Soporte from './screens/Soporte';
 
 // Styles
 import styles from './styles/styles';
@@ -21,7 +23,7 @@ import generalStyles from './styles/generalStyles';
 // Vars:
 
 const { width, height } = Dimensions.get('window');
-const URL = 'https://fd89-186-189-91-27.ngrok-free.app/';
+const URL = 'https://fd69-201-221-217-51.ngrok-free.app/';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -41,12 +43,7 @@ export default function App() {
 
     const toConfig = () => {
       setModalVisible(false);
-      navigation.navigate('Configuracion', { user: 1, url: URL });
-    };
-
-    const toMedic = () => {
-      setModalVisible(false);
-      navigation.navigate('ContactarMedico');
+      navigation.navigate('Configuracion');
     };
 
     const toSupport = () => {
@@ -60,7 +57,6 @@ export default function App() {
           <Button title="Cerrar" onPress={handleModalClose} />
           <View style={styles.dropdownContainer}>
             <Button title="Configuración" onPress={toConfig}/>
-            <Button title="Contactar Médico" onPress={toMedic}/>
             <Button title="Soporte" onPress={toSupport}/>
           </View>
         </View>
@@ -112,11 +108,7 @@ export default function App() {
                 <View style={styles.headBar}>
                   <View style={minSalLogo.logoLeft} />
                   <View style={minSalLogo.logoRight} />
-                  <Text style={generalStyles.titles}>MPC</Text>
-                  <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
-                </View>
-                <View style={{position: 'relative', left: width * 0.28}}>
-                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                  <Text style={[generalStyles.titles, {position:'absolute', padding: width*0.1}]}>Alertas</Text>
                 </View>
               </View>
             ),
@@ -132,11 +124,13 @@ export default function App() {
                 <View style={styles.headBar}>
                   <View style={minSalLogo.logoLeft} />
                   <View style={minSalLogo.logoRight} />
-                  <Text style={generalStyles.titles}>MPC</Text>
-                  <Button title="Menu" style={styles.button} onPress={handleButtonPress}/>
-                </View>
-                <View style={{position: 'relative', left: width * 0.28}}>
-                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                  <Text style={{  fontSize:25,
+                                  fontWeight:"bold",
+                                  color:"black",
+                                  position: "absolute",
+                                  textAlignVertical: "top",
+                                  letterSpacing:.8,
+                                }}>Ingresar Paciente</Text>
                 </View>
               </View>
             ),
@@ -180,6 +174,42 @@ export default function App() {
             ),
           })} 
         />
+        <Stack.Screen name="Configuracion"
+          component={Configuracion}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={[generalStyles.titles, {position: 'absolute', padding: 16}]}>Configuración</Text>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+          />
+          <Stack.Screen name="Soporte"
+          component={Soporte}
+          initialParams={{ url: URL }}
+          options={({ navigation }) => ({
+            headerTitle: () => (
+              <View style={styles.container}>
+                <View style={styles.headBar}>
+                  <View style={minSalLogo.logoLeft} />
+                  <View style={minSalLogo.logoRight} />
+                  <Text style={[generalStyles.titles, {position: 'absolute', padding: 50}]}>Soporte</Text>
+                </View>
+                <View style={{position: 'relative', left: width * 0.28}}>
+                  <MODAL navigation={navigation} onPress={handleModalClose} />
+                </View>
+              </View>
+            ),
+          })} 
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -2,6 +2,9 @@
 import { Text, View, Dimensions, Modal, Button, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
+// Globales
+import {setUser} from '../utils/global';
+
 // Styles
 import styles from '../styles/styles'
 import generalStyles from '../styles/generalStyles';
@@ -12,6 +15,8 @@ const { width, height } = Dimensions.get('window');
 
 export default function Login({ route, navigation }) {
     const { url } = route.params
+    const URL = url + 'fetchPatients';
+
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [Pass, setPass] = useState('');
@@ -19,7 +24,7 @@ export default function Login({ route, navigation }) {
     const [loading, setLoading] = useState(true);
   
     useEffect(()=>{
-      fetch(url)
+      fetch(URL)
       .then((response)=>response.json())
       .then((json)=>setData(json))
       .catch((error)=>console.error(error))
@@ -36,24 +41,20 @@ export default function Login({ route, navigation }) {
       setModalVisible(false);
     }
     const handleSesion = () => {
-      if(data.length === 0){
+      if (data.length === 0) {
         alert("No hay usuarios registrados");
-      };
-      for (let i = 0; i < data.length; i++) {
-        const userData = data[i]; // Assuming `data` is an array of user data
-        if (userData.includes(userText)) {
-          if (userData[5] === Pass) {
-            navigation.navigate('PatientMenu', { autoExamen: false, user: i });
-            break;
-          } else {
-            setModalVisible(true); // Show modal if password doesn't match
-          }
-        }
-        if (i === data.length - 1) {
-          setModalVisible(true); // Show modal if user not found
+      } else {
+        const userFound = data.find((item) => userText === item.nombre && Pass === item.password);
+    
+        if (userFound) {
+          setUser(userFound);
+          navigation.navigate('PatientMenu', { user: userFound });
+        } else {
+          alert("Usuario o contraseña incorrectos");
         }
       }
     };
+    
     
   
     return (

@@ -47,6 +47,29 @@ const { width, height } = Dimensions.get('window');
     )
     //#region  Fetching:
     const handleSubmit = () => {
+        const datos = [nombre,
+            rut,
+            fechaNacimiento,
+            fechaDiagnostico,
+            telefono,
+            email,
+            direccion,
+            password,
+            idSemaforo]
+        const camposVacios = [];
+        const nombresCampos = ['Nombre', 'RUT',
+         'Fecha de Nacimiento', 'Fecha de Diagnóstico',
+          'Teléfono', 'Email', 'Dirección', 'Contraseña',
+           'ID del Semáforo'];
+        datos.forEach((item, index) => {
+            if (item === '') {
+              camposVacios.push(nombresCampos[index]);
+            }
+          });
+        console.log(camposVacios)
+        if(camposVacios.length !== 0){
+            alert(`Por favor llene los siguientes campos: ${camposVacios.join(', ')}`);
+        }else{
         fetch(URL, {
           method: 'POST',
           headers: {
@@ -72,6 +95,7 @@ const { width, height } = Dimensions.get('window');
           .catch(error => {
             console.error(error);
           });
+        }
       };
       //#endregion
     return (
@@ -97,7 +121,7 @@ const { width, height } = Dimensions.get('window');
                         style={{ height: 40, borderColor: 'gray', borderWidth: 1, padding:5}}
                         placeholder={"Contraseña"}
                         onChangeText={setPassword}
-                        value={password}
+                        secureTextEntry={true}
                     />
                 </View>
             <View style={{ padding: 5 }}>

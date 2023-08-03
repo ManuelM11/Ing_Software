@@ -1,5 +1,5 @@
 // Navigation
-import { RefreshControl, SafeAreaView, ScrollView, Text, View, Dimensions, Modal, Button } from 'react-native';
+import { RefreshControl, SafeAreaView, ScrollView, Text, View, Dimensions, Modal, Button, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 
@@ -15,6 +15,10 @@ export default function AddPatient({route, navigation}){
         let colors = ['VERDE', 'NARANJO', 'ROJO'];
         if(sem >= 0 && sem <= 2){return colors[sem];}
         return null;
+    };
+
+    const toCall = (number) => {
+        Linking.openURL(`tel:${number}`)
     };
 
     return(
@@ -40,7 +44,7 @@ export default function AddPatient({route, navigation}){
                 <Text style={[generalStyles.nText,]}>{patient.direccion}</Text>
             </View>
             <View style={{padding:16}}>
-                <Button title="Contactar Paciente"/>
+                <Button title="Contactar Paciente" onPress={() => toCall(patient.telefono)}/>
             </View>
         </View>
     );

@@ -12,11 +12,13 @@ import generalStyles from '../styles/generalStyles';
 // Variables
 const { width, height } = Dimensions.get('window');
 
+
 // Corresponde a el return de la parte visual de la app
 export default function PatientMenu({ route, navigation }) {
 
   // Route params. SI NO SE UTILIZA LAS VARIABLES SON UNDEFINED
   const { user, url, autoExamen } = route.params
+  const URL = url + 'fetchPatients';
   // useState
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
@@ -46,7 +48,7 @@ export default function PatientMenu({ route, navigation }) {
 
   // Fetching a la base de datos
   useEffect(()=>{
-    fetch(url)
+    fetch(URL)
     .then((response)=>response.json())
     .then((json)=>setData(json))
     .catch((error)=>console.error(error))
@@ -69,19 +71,19 @@ export default function PatientMenu({ route, navigation }) {
               <View style={{flexDirection:'row'}}>
                 <Text style={body.boldText}>Nombre: </Text>
                 <Text style={generalStyles.nText}> 
-                  {data[user][1]}
+                  {user.nombre}
                 </Text>
               </View>
               <View style={{flexDirection:'row'}}>
                 <Text style={body.boldText}>Teléfono: </Text>
                 <Text style={generalStyles.nText}>
-                  {data[user][3]}
+                  {user.telefono}
                 </Text>
               </View>
               <View style={{flexDirection:'row'}}>
                 <Text style={body.boldText}>Mail: </Text>
                 <Text style={generalStyles.nText}>
-                  {data[user][4]}
+                  {user.email}
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
@@ -131,5 +133,6 @@ export default function PatientMenu({ route, navigation }) {
       </Modal>
       
     </View>
+    
   );
 }

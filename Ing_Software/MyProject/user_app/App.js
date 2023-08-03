@@ -8,6 +8,10 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+// Globals
+
+import { setUser, getUser } from './utils/global';
+
 // Screens
 import Login from './screens/Login';
 import Asistencia from './screens/Asistencia';
@@ -26,8 +30,7 @@ const { width, height } = Dimensions.get('window');
 const Stack = createNativeStackNavigator();
 
 // URL DE FETCH
-const URL = 'http://127.0.0.1:5000/fetchPatients';
-
+const URL = 'https://fd69-201-221-217-51.ngrok-free.app/';
 /*
 Mencionar que NavigationContainer corresponde al headbar, por lo tanto, puede modificarse la vista de este en 
 cada screen. Es por ello que las opciones de cada uno están llenos de código y, chistosamente son casi
@@ -53,12 +56,12 @@ export default function App() {
 
     const toConfig = () => {
       setModalVisible(false);
-      navigation.navigate('Configuracion', { user: 1, url: URL });
+      navigation.navigate('Configuracion', { url: URL });
     };
 
     const toMedic = () => {
       setModalVisible(false);
-      navigation.navigate('ContactarMedico');
+      navigation.navigate('ContactarMedico', {user: getUser(), url:URL});
     };
 
     const toSupport = () => {

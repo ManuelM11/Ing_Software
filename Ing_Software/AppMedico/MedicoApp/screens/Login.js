@@ -47,14 +47,17 @@ export default function Login({route, navigation}){
     }
 
     const handleSesion = () => {
-        if(data.length === 0){
-          alert("No hay usuarios registrados");
-        };
-        data.map((item) => {
-            if(userText === item.nombre && Pass === item.password){
-                navigation.navigate('Main', { user: item })
-            }
-        });
+      if (data.length === 0) {
+        alert("No hay usuarios registrados");
+      } else {
+        const userFound = data.find((item) => userText === item.nombre && Pass === item.password);
+    
+        if (userFound) {
+          navigation.navigate('Main', { user: userFound });
+        } else {
+          alert("Usuario o contraseña incorrectos");
+        }
+      }
     };
     //#endregion
     

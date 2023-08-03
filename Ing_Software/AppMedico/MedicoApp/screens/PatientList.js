@@ -31,8 +31,8 @@ export default function PatientList({route, navigation}){
         return data.map((item) => {
             if (item.rut_funcionario === user.rut) {
                 return(
-                <View style={{padding:5}}>
-                    <Button style={generalStyles.nText} key={item.id}
+                <View style={{padding:5}} key={item.rut}>
+                    <Button style={generalStyles.nText}
                         title={item.nombre} 
                         onPress={() => toPatient(item)}
                     />

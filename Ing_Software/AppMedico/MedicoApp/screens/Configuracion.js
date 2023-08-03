@@ -15,7 +15,7 @@ export default function Configuracion({ route, navigation }) {
 
     const { url } = route.params
 
-    const URL = url + 'fetchPatients';
+    const URL = url + 'fetchDoctor';
     const [data, setData] = useState([]);
     const [verPass, setVerPass] = useState('');
     const [Pass, setPass] = useState('');
