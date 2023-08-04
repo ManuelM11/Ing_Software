@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, Response
 from config import ServerConfig
 from models.db import Db
-from src.models.semaforo import mapToSemaforo
+from models.semaforo import mapToSemaforo
 import json
 db = Db()
 class SemaforoRoutes():

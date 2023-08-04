@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify, Response
 from config import ServerConfig
 from models.db import Db
-from src.models.doctor import mapToDoctor
-from src.models.unidad_referencia import mapToUnidadRef
+from models.doctor import mapToDoctor
+from models.unidad_referencia import mapToUnidadRef
 from pymysql import Error
+from flask_cors import cross_origin
 import json
 db = Db()
 class AdminRoutes():
@@ -11,6 +12,7 @@ class AdminRoutes():
     def fetchAdmin(self):
         simple_page = Blueprint("fetchAdmin", __name__)
         @simple_page.route("/fetchAdmin", methods = ["POST"])
+        @cross_origin()
         def f():
             user = request.json["username"]
             print(user)
@@ -19,14 +21,9 @@ class AdminRoutes():
             results = db.query(statement)
             if (results == () or results[0].get("password")!= password):
                 return jsonify({
-                "Unauthorized": 401,
-                
-            })
+                "Unauthorized": "Datos incorrectos"}), 401
             # print(results[0].get("password") == password)
-            return jsonify({
-                "user": user,
-                "pass": password
-            })
+            return jsonify({"Authorized": "Datos Correctos"}),200
         self.admin_bp.append(simple_page)
 
     def getBlueprints(self):

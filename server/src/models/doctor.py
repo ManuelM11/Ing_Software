@@ -13,10 +13,11 @@ class Doctor():
 
 def mapToDoctor(data: any) -> "Doctor":
     #Recibe un json y retorna una instancia de Doctor
-    keys = ["nombre","rut","profesion","telefono","email","direccion","id_unidad"]
+    keys = ["nombre","rut","profesion","telefono","email","direccion","id_unidad","unidad"]
     data = {k.lower():v for k,v in data.items()}
     for i in data:
         if (i not in keys):
+            print(i)
             print("No se encontró algún atributo del funcionario")
             return None
     nombre = data.get("nombre")

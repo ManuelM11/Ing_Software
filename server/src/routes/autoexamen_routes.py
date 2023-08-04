@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, Response
 from config import ServerConfig
 from models.db import Db
-from src.models.autoexamen import mapToAutoExamen
+from models.autoexamen import mapToAutoExamen
 import json
 db = Db()
 class AutoExamenRoutes():

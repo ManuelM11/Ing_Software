@@ -1,0 +1,29 @@
+.nav-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: brown;
+    padding-left: 1vh;
+    padding-right: 1vh;
+}
+
+.nav-button{
+    background-color: brown;
+    color: aliceblue;
+    border-style: none;
+}
+.nav-right-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.nav-left-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.nav-button:hover{
+    background-color: rgb(8, 0, 255);
+}
+

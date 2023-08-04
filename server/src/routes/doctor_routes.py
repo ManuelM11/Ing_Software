@@ -25,6 +25,8 @@ class DoctorRoutes:
         def f(rut):
             statement = f"SELECT * FROM FUNCIONARIO WHERE RUT = {rut}"
             results = DB.query(statement)
+            unidad = DB.query(f"SELECT nombre FROM UNIDAD_REFERENCIA WHERE id = {results[0].get('id_unidad')}")
+            results[0]["unidad"] = unidad[0].get("nombre")
             return json.dumps(results, ensure_ascii = False)
         self.d_r.append(simple_page)
 
@@ -34,7 +36,14 @@ class DoctorRoutes:
         @cross_origin()
         def f():
             data = request.get_json()
+            unidad = data.get("unidad")
+            statement = f"""SELECT id FROM UNIDAD_REFERENCIA WHERE nombre = '{unidad}'"""
+            id_u = DB.query(statement)
+            print(data.get("unidad"))
+            data["id_unidad"] = id_u[0].get("id")
+            print(data)
             doctor = mapToDoctor(data)
+
             if (doctor!=None):
                 statement = """INSERT INTO FUNCIONARIO (nombre,rut,profesion,telefono,email,direccion,password,id_unidad) values (%s, %s, %s, %s,%s,%s,%s,%s)"""
                 DB.insert(statement,doctor.getAttributes())

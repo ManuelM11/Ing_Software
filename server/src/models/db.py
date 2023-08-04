@@ -13,6 +13,12 @@ class Db:
         conn.close()
 
         return results
+    def update(self,statement):
+        conn = pymysql.connect(host=self.s, user=self.u,password=self.p,database=self.d)
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute(statement)
+        conn.commit()
+        conn.close()
     def insert(self,statement,values):
         values = tuple(values)
         conn = pymysql.connect(host=self.s, user=self.u,password=self.p,database=self.d)
