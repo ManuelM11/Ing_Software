@@ -1,9 +1,9 @@
 // Navigation
-import { Text, View, Dimensions, Modal, Button, TextInput } from 'react-native';
+import { Text, View, Dimensions, Modal, Button, TextInput, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 // Styles
-import styles from '../styles/styles'
+import styles from '../styles/styles';
 import generalStyles from '../styles/generalStyles';
 import minSalLogo from '../styles/minSalLogo';
 
@@ -61,6 +61,10 @@ export default function Login({route, navigation}){
     };
     //#endregion
     
+    const toCall = (number) => {
+      Linking.openURL(`tel:${number}`)
+    };
+
     return(
         <View style={{marginTop:width*0.06}}>
         {loading ? (<Text> Loading ... </Text>) : 
@@ -100,8 +104,10 @@ export default function Login({route, navigation}){
                 </View>
               </View>
             </View>
-  
           </Modal>
+          <View>
+            <Text style={{color: 'blue', fontWeight:'bold', fontSize:20, padding:16}} onPress={() => toCall('+56950783070')}>Contactar Soporte</Text>
+          </View>
         </View>
         )}
         </View>

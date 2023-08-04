@@ -1,20 +1,21 @@
 // Navigation
-import { Text, View, Dimensions, Modal, Button, TextInput } from 'react-native';
+import { Text, View, Dimensions, Modal, Button, TextInput, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 // Globales
 import {setUser} from '../utils/global';
 
 // Styles
-import styles from '../styles/styles'
+import styles from '../styles/styles';
 import generalStyles from '../styles/generalStyles';
 import minSalLogo from '../styles/minSalLogo';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Variables
 const { width, height } = Dimensions.get('window');
 
 export default function Login({ route, navigation }) {
-    const { url } = route.params
+    const { url } = route.params;
     const URL = url + 'fetchPatients';
 
     const [data, setData] = useState([]);
@@ -55,7 +56,9 @@ export default function Login({ route, navigation }) {
       }
     };
     
-    
+    const toCall = (number) => {
+      Linking.openURL(`tel:${number}`);
+    };
   
     return (
       <View style={{marginTop:width*0.06}}>
@@ -96,8 +99,10 @@ export default function Login({ route, navigation }) {
                 </View>
               </View>
             </View>
-  
           </Modal>
+          <View>
+            <Text style={{color: 'blue', fontWeight:'bold', fontSize:20, padding:16}} onPress={() => toCall('+56950783070')}>Contactar Soporte</Text>
+          </View>
         </View>
         )}
         </View>

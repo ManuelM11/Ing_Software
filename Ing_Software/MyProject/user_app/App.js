@@ -30,7 +30,7 @@ const { width, height } = Dimensions.get('window');
 const Stack = createNativeStackNavigator();
 
 // URL DE FETCH
-const URL = 'https://fd69-201-221-217-51.ngrok-free.app/';
+const URL = 'https://930b-201-221-217-51.ngrok-free.app/';
 /*
 Mencionar que NavigationContainer corresponde al headbar, por lo tanto, puede modificarse la vista de este en 
 cada screen. Es por ello que las opciones de cada uno están llenos de código y, chistosamente son casi

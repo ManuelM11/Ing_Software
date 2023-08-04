@@ -23,7 +23,7 @@ import generalStyles from './styles/generalStyles';
 // Vars:
 
 const { width, height } = Dimensions.get('window');
-const URL = 'https://fd69-201-221-217-51.ngrok-free.app/';
+const URL = 'https://930b-201-221-217-51.ngrok-free.app/';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
